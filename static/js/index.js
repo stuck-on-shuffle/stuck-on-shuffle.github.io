@@ -33,6 +33,8 @@ if (gallery) {
     const animate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
       && typeof outgoing.animate === 'function';
     spinning = true;
+    // Hidden lazy images may never load, leaving decode() pending indefinitely.
+    incoming.querySelector('img').loading = 'eager';
     if (animate) {
       await incoming.querySelector('img').decode().catch(() => {});
       await outgoing.animate([
